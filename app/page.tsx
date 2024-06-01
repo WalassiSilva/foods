@@ -46,7 +46,7 @@ export default async function Home() {
       <div className="space-y-3 py-6">
         <div className="flex items-center justify-between px-5">
           <h2 className="font-semibold">Pedidos Recomendados</h2>
-          <Link href={"/restaurants/recommended"}>
+          <Link href={"/products/recommended"}>
             <Button
               variant="ghost"
               className="hover:bg-tranparent h-fit p-0 text-primary"
