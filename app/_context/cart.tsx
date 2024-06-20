@@ -14,13 +14,39 @@ export type CartProduct = Prisma.ProductGetPayload<{
 }> & {
   quantity: number;
 };
-
+type AddProductToCartProps = {
+  product: Prisma.ProductGetPayload<{
+    include: {
+      restaurant: {
+        select: {
+          deliveryFee: true;
+        };
+      };
+    };
+  }>;
+};
 type CortContext = {
   products: CartProduct[];
   subtotalPrice: number;
   totalPrice: number;
   totalDiscounts: number;
-  addProductToCart: (product: Product, quantity: number) => void;
+  addProductToCart: ({
+    product,
+    quantity,
+    emptyCart,
+  }: {
+    product: Prisma.ProductGetPayload<{
+      include: {
+        restaurant: {
+          select: {
+            deliveryFee: true;
+          };
+        };
+      };
+    }>;
+    quantity: number;
+    emptyCart?: boolean;
+  }) => void;
   decreaseProductQuantity: (productId: string) => void;
   increaseProductQuantity: (productId: string) => void;
   removeProductFromCart: (productId: string) => void;
@@ -47,9 +73,11 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   }, [products]);
 
   const totalPrice = useMemo(() => {
-    return products.reduce((acc, product) => {
-      return acc + calculateProductTotalPrice(product) * product.quantity;
-    }, 0);
+    return (
+      products.reduce((acc, product) => {
+        return acc + calculateProductTotalPrice(product) * product.quantity;
+      }, 0) + Number(products?.[0]?.restaurant?.deliveryFee)
+    );
   }, [products]);
 
   const totalDiscounts = subtotalPrice - totalPrice;
@@ -92,8 +120,29 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     );
   };
 
-  const addProductToCart = (product: Product, quantity: number) => {
-    // setProducts((prev) => [...prev, { ...product, quantity: 0 }]);
+  const addProductToCart = ({
+    product,
+    quantity,
+    emptyCart,
+  }: {
+    product: Prisma.ProductGetPayload<{
+      include: {
+        restaurant: {
+          select: {
+            deliveryFee: true;
+          };
+        };
+      };
+    }>;
+    quantity: number;
+    emptyCart?: boolean;
+  }) => {
+    // VERIFICA SE HÁ PRODUTO DE OUTRO RESTAURANTE NO CARRINHO
+
+    if (emptyCart) {
+      setProducts([]);
+    }
+
     const isProductInCart = products.some(
       (cartProduct) => cartProduct.id === product.id,
     );
