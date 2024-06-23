@@ -7,6 +7,8 @@ export type CartProduct = Prisma.ProductGetPayload<{
   include: {
     restaurant: {
       select: {
+        id: true;
+        deliveryTimeMinutes: true;
         deliveryFee: true;
       };
     };
@@ -14,20 +16,22 @@ export type CartProduct = Prisma.ProductGetPayload<{
 }> & {
   quantity: number;
 };
-type AddProductToCartProps = {
-  product: Prisma.ProductGetPayload<{
-    include: {
-      restaurant: {
-        select: {
-          deliveryFee: true;
-        };
-      };
-    };
-  }>;
-};
+// type AddProductToCartProps = {
+//   product: Prisma.ProductGetPayload<{
+//     include: {
+//       restaurant: {
+//         select: {
+//           id:true;
+//           deliveryFee: true;
+//           deliveryTime: true;
+//         };
+//       };
+//     };
+//   }>;
+// };
 type CortContext = {
   products: CartProduct[];
-  subtotalPrice: number;
+  subTotalPrice: number;
   totalPrice: number;
   totalDiscounts: number;
   totalQuantity: number;
@@ -40,7 +44,9 @@ type CortContext = {
       include: {
         restaurant: {
           select: {
+            id: true;
             deliveryFee: true;
+            deliveryTimeMinutes: true;
           };
         };
       };
@@ -51,6 +57,7 @@ type CortContext = {
   decreaseProductQuantity: (productId: string) => void;
   increaseProductQuantity: (productId: string) => void;
   removeProductFromCart: (productId: string) => void;
+  clearCart: () => void;
 };
 
 export const CartContext = createContext<CortContext>({
@@ -59,7 +66,8 @@ export const CartContext = createContext<CortContext>({
   decreaseProductQuantity: () => {},
   increaseProductQuantity: () => {},
   removeProductFromCart: () => {},
-  subtotalPrice: 0,
+  clearCart: () => {},
+  subTotalPrice: 0,
   totalPrice: 0,
   totalDiscounts: 0,
   totalQuantity: 0,
@@ -68,7 +76,7 @@ export const CartContext = createContext<CortContext>({
 export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const [products, setProducts] = useState<CartProduct[]>([]);
 
-  const subtotalPrice = useMemo(() => {
+  const subTotalPrice = useMemo(() => {
     return products.reduce((acc, product) => {
       return acc + Number(product.price) * product.quantity;
     }, 0);
@@ -89,7 +97,11 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   }, [products]);
 
   const totalDiscounts =
-    subtotalPrice - totalPrice + Number(products?.[0]?.restaurant?.deliveryFee);
+    subTotalPrice - totalPrice + Number(products?.[0]?.restaurant?.deliveryFee);
+
+  const clearCart = () => {
+    return setProducts([]);
+  };
 
   const decreaseProductQuantity = (productId: string) => {
     return setProducts((prev) =>
@@ -177,7 +189,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     <CartContext.Provider
       value={{
         products,
-        subtotalPrice,
+        subTotalPrice,
         totalPrice,
         totalDiscounts,
         totalQuantity,
@@ -185,6 +197,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
         decreaseProductQuantity,
         increaseProductQuantity,
         removeProductFromCart,
+        clearCart,
       }}
     >
       {children}
