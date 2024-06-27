@@ -19,8 +19,15 @@ import {
 } from "./ui/alert-dialog";
 import { AlertDialogCancel } from "@radix-ui/react-alert-dialog";
 import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
-export default function Cart() {
+type CartProps = {
+  setIsOpen: (isOpen: boolean) => void;
+};
+
+export default function Cart({ setIsOpen }: CartProps) {
+  const router = useRouter();
   const [isSubmitLoading, setIsSubmitLoading] = useState(false);
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
 
@@ -60,6 +67,16 @@ export default function Cart() {
       });
 
       clearCart();
+
+      setIsOpen(false);
+
+      toast("Pedido finalizado com sucesso!", {
+        description: "Você pode acompanhá-lo na tela dos seu pedidos",
+        action: {
+          label: "Meus pedidos",
+          onClick: () => router.push("/my-orders"),
+        },
+      });
     } catch (error) {
       console.error(error);
     } finally {
