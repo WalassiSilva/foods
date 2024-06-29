@@ -1,5 +1,5 @@
 "use client";
-import { Prisma, Product } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import { createContext, useMemo, useState } from "react";
 import { calculateProductTotalPrice } from "../helpers/price";
 
@@ -150,6 +150,8 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
       include: {
         restaurant: {
           select: {
+            id: true;
+            deliveryTimeMinutes: true;
             deliveryFee: true;
           };
         };
