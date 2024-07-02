@@ -1,5 +1,5 @@
 "use client";
-// import Header from "@/app/_components/header";
+import Header from "@/app/_components/header";
 import RestaurantItem from "@/app/_components/restaurant-item";
 import { notFound, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -25,7 +25,7 @@ export default function Restaurants() {
   }
   return (
     <>
-      {/* <Header /> */}
+      <Header />
 
       <div className="px-5 py-6">
         <h2 className="mb-6 text-lg font-semibold">Restaurantes Encontrados</h2>

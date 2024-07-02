@@ -1,4 +1,4 @@
-// import Header from "./_components/header";
+import Header from "./_components/header";
 import CategoryList from "./_components/category-list";
 import Search from "./_components/search";
 import ProductList from "./_components/product-list";
@@ -28,7 +28,7 @@ export default async function Home() {
 
   return (
     <main className="">
-      {/* <Header /> */}
+      <Header />
       <div className="px-5 pt-6">
         <Search />
       </div>
