@@ -1,5 +1,6 @@
 "use client";
-import Header from "@/app/_components/header";
+// import Header from "@/app/_components/header";
+import Header from "../../_components/header";
 import RestaurantItem from "@/app/_components/restaurant-item";
 import { notFound, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";

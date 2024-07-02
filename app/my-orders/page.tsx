@@ -1,4 +1,5 @@
-import Header from "@/app/_components/header";
+// import Header from "@/app/_components/header";
+import Header from "../_components/header";
 import { getServerSession } from "next-auth";
 import React from "react";
 import { authOptions } from "../_lib/auth";
