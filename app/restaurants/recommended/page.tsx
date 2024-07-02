@@ -1,4 +1,4 @@
-import Header from "@/app/_components/header";
+// import Header from "@/app/_components/header";
 import RestaurantItem from "@/app/_components/restaurant-item";
 import { db } from "@/app/_lib/prisma";
 import React from "react";
@@ -8,7 +8,7 @@ export default async function RecommendedRestaurants() {
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <div className="px-5">
         <h2 className="text-gl py-6 font-semibold">Restaurantes Favoritos</h2>
         <div className="flex w-full flex-col gap-6">

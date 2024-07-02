@@ -3,7 +3,7 @@ import React from "react";
 import { authOptions } from "../_lib/auth";
 import { db } from "../_lib/prisma";
 import { redirect } from "next/navigation";
-import Header from "../_components/header";
+// import Header from "../_components/header";
 import OrderItem from "./_components/order-item";
 
 export default async function MyOrdersPage() {
@@ -28,7 +28,7 @@ export default async function MyOrdersPage() {
   });
   return (
     <>
-      <Header />
+      {/* <Header /> */}
 
       <div className="px-5 py-6">
         <h2 className="font-semibold">Meus Pedidos</h2>
