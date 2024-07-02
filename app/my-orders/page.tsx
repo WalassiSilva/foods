@@ -1,9 +1,9 @@
+import Header from "@/app/_components/header";
 import { getServerSession } from "next-auth";
 import React from "react";
 import { authOptions } from "../_lib/auth";
 import { db } from "../_lib/prisma";
 import { redirect } from "next/navigation";
-import Header from "../_components/header";
 import OrderItem from "./_components/order-item";
 
 export default async function MyOrdersPage() {

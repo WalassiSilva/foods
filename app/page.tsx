@@ -1,4 +1,4 @@
-import Header from "./_components/header";
+import Header from "@/app/_components/header";
 import CategoryList from "./_components/category-list";
 import Search from "./_components/search";
 import ProductList from "./_components/product-list";
